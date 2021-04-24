@@ -19,8 +19,8 @@ export const getServerSideProps = storeWrapper.getServerSideProps(async({store})
 
   return {
     props: { isConnected },
-  }
-})
+  };
+});
 
 /*export async function getServerSideProps(context) {
   const { client } = await connectToDatabase()
