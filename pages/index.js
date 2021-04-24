@@ -1,13 +1,13 @@
 import { userUpdate } from '../redux/action/user';
-import { storeWrapper } from '../redux/store'
-import { connectToDatabase } from '../util/mongodb'
+import { storeWrapper } from '../redux/store';
+import { connectToDatabase } from '../util/mongodb';
 
 export default function Home({ isConnected }) {
   return (
     <div className="container">
     </div>
-  )
-}
+  );
+};
 
 export const getServerSideProps = storeWrapper.getServerSideProps(async({store}) => {
   const { client } = await connectToDatabase();
