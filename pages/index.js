@@ -1,10 +1,21 @@
 import { connectToDatabase } from '../util/mongodb'
 import { useDispatch } from "react-redux";
 import { userUpdate } from '../redux/action/user';
+import { useEffect, useState } from 'react';
+import axios from 'axios'
 
 export default function Home({ isConnected }) {
   const dispatch = useDispatch();
   dispatch(userUpdate({ firstName: 'Foo', lastName: 'Bar' }));
+
+  useEffect(() => {
+    const getCategories = async () => {
+      const categories = await axios.get('/api/getAllCategories')
+      console.log(categories)
+      return categories;
+    };
+    getCategories();
+  },[]);
 
   return (
     <div className="container">
