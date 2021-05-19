@@ -10,7 +10,7 @@ export default function Home({ isConnected }) {
 
   useEffect(() => {
     const getCategories = async () => {
-      const categories = await axios.get('/api/getAllCategories')
+      const categories = await axios.get('/api/categories')
       console.log(categories)
       return categories;
     };
