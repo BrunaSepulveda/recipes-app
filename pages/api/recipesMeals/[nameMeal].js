@@ -18,7 +18,7 @@ const itens = (recipeDetails, element) => {
   return list;
 };
 
-export default async function getAllCategories(req, res) {
+export default async function getRecipeDetails(req, res) {
   const { nameMeal } = req.query
   const response = await axios.get(`https://themealdb.com/api/json/v1/1/search.php?s=${nameMeal}`);
   const recipes = response.data.meals.map((recipeDetails) => {
