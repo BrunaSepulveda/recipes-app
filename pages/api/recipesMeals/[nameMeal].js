@@ -1,30 +1,22 @@
 import axios from 'axios';
 
-const ingredientsWithMeasure = (ingredients, measure) => {
-  const list = ingredients.reduce((accumulator, currentValue, index) => {
-    const ingredientWithMeasure = currentValue + " " + measure[index];
-    return [...accumulator, ingredientWithMeasure]
-  }, []);
-  return list;
-}
-const itens = (recipeDetails, element) => {
-  const list = Array(19).fill(0).reduce((acc, _currentValue, index) => {
-    if (!recipeDetails[`${element}${index + 1}`]) {
+const ingredientsWithMeasure = (recipeDetails) => {
+  const keys = Object.keys(recipeDetails);
+  const keysIngredientes = keys.reduce((acc, key) => {
+    if (key.match(/^strIngredient(\d+$)/)) {
+      const index = key.match(/^strIngredient(\d+$)/)[1];
+      acc.push({ingredient: recipeDetails[key], mesure: recipeDetails[`strMeasure${index}`]})
       return acc
-    }
-    const ingredient = recipeDetails[`${element}${index + 1}`]
-    return [...acc, ingredient]
-  }, []);
-  return list;
-};
+    } return acc
+  },[])
+  return keysIngredientes;
+}
 
 export default async function getRecipeDetails(req, res) {
   const { nameMeal } = req.query
   const response = await axios.get(`https://themealdb.com/api/json/v1/1/search.php?s=${nameMeal}`);
   const recipes = response.data.meals.map((recipeDetails) => {
-    const listIngredients = itens(recipeDetails, "strIngredient");
-    const listMeasure = itens(recipeDetails, "strMeasure");
-    const listIngredientsWithMeasure = ingredientsWithMeasure(listIngredients, listMeasure);
+    const listIngredientsWithMeasure = ingredientsWithMeasure(recipeDetails);
     return {
       id: recipeDetails.idMeal,
       name: recipeDetails.strMeal,
@@ -34,8 +26,6 @@ export default async function getRecipeDetails(req, res) {
       instructions: recipeDetails.strInstructions,
       tags: recipeDetails.strTags,
       video: recipeDetails.strYoutube,
-      ingredients: listIngredients,
-      measure: listMeasure,
       ingredientsAndMeasure: listIngredientsWithMeasure,
     }
   });
