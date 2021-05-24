@@ -3,8 +3,9 @@ import axios from 'axios';
 const ingredientsWithMeasure = (recipeDetails) => {
   const keys = Object.keys(recipeDetails);
   const keysIngredientes = keys.reduce((acc, key) => {
-    if (key.match(/^strIngredient(\d+$)/)) {
-      const index = key.match(/^strIngredient(\d+$)/)[1];
+    const match = key.match(/^strIngredient(\d+$)/);
+    if (match && recipeDetails[match[0]]) {
+      const index = match[1];
       acc.push({ingredient: recipeDetails[key], mesure: recipeDetails[`strMeasure${index}`]})
       return acc
     } return acc
