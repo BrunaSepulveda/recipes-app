@@ -10,4 +10,4 @@ export default async function getAllCategories(_req, res) {
     }
   });
   res.status(200).json(categories);
-};
+}
