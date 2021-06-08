@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-export default async function getAllCategories(req, res) {
+export default async function getMealsByCategoryName(req, res) {
   const { name } = req.query
-  const response  = await axios.get(`https://themealdb.com/api/json/v1/1/search.php?s=${name}`);
+  const response = await axios.get(`https://themealdb.com/api/json/v1/1/search.php?s=${name}`);
   const recipes = response.data.meals.map((recipe) => {
     return {
       id: recipe.idMeal,
@@ -12,4 +12,4 @@ export default async function getAllCategories(req, res) {
     }
   });
   res.status(200).json(recipes);
-};
+}
